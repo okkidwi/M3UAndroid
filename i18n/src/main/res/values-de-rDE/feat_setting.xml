@@ -121,7 +121,6 @@
         nützlich für große Mengen an Kanälen,
         aber gleichzeitig wird die Gruppierung deaktiviert
     </string>
-    <string name="feat_setting_source_code">Quellcode</string>
 
     <!-- EPG -->
     <string name="feat_setting_placeholder_epg_title">EPG-Name</string>

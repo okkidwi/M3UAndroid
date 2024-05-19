@@ -116,7 +116,6 @@
 
     <string name="feat_setting_paging">Paginação em canais</string>
     <string name="feat_setting_paging_description">útil para grandes quantidades de canais, mas o agrupamento será desativado ao mesmo tempo</string>
-    <string name="feat_setting_source_code">Código fonte</string>
 
     <!-- EPG -->
     <string name="feat_setting_placeholder_epg_title">Nome EPG</string>

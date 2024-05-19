@@ -6,7 +6,6 @@ import android.provider.Settings
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.OpenInNew
-import androidx.compose.material.icons.rounded.Book
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.PermDeviceInformation
@@ -53,14 +52,6 @@ internal fun OtherPreferences(
             title = stringResource(string.feat_setting_app_version).title(),
             content = "$versionName ($versionCode)",
             icon = Icons.Rounded.Info,
-        )
-        Preference(
-            title = stringResource(string.feat_setting_source_code).title(),
-            content = "@oxyroid/M3UAndroid",
-            icon = Icons.Rounded.Book,
-            onClick = {
-                uriHandler.openUri("https://github.com/oxyroid/M3UAndroid")
-            }
         )
     }
 }
