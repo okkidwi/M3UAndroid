@@ -7,6 +7,14 @@ Android 8.0 and above supported.
 
 Most Android devices, including smartphones, TVs, and tablets.
 
+### Features
+
+- Playlist Management.
+- Streaming media analysis capabilities.
+- Xtream support.
+- DLNA screencast.
+- i18n (Internationalization).
+
 ### Screenshots
 
 <div align="center">
@@ -18,24 +26,14 @@ Most Android devices, including smartphones, TVs, and tablets.
 <img src=".github/images/tv/player.png" width="45%" style="flex:1" />
 </div>
 
-### Translations
+### i18n
 
 - [English](i18n/src/main/res/values)
 - [Simplified Chinese](i18n/src/main/res/values-zh-rCN)
-- [Spanish](i18n/src/main/res/values-es-rES),
-  thanks [@sguinetti](https://github.com/sguinetti/M3UAndroid)
-- [Romanian](i18n/src/main/res/values-ro-rRO),
-  thanks [@iboboc](https://github.com/iboboc/M3UAndroid)
-- [Brazilian Portuguese](i18n/src/main/res/values-pt-rBR),
-  thanks [@Suburbanno](https://github.com/Suburbanno)
-
-### Features
-
-- Playlist Management.
-- Streaming media analysis capabilities.
-- Xtream support.
-- DLNA screencast.
-- i18n (Internationalization).
+- [Spanish](i18n/src/main/res/values-es-rES)
+- [Romanian](i18n/src/main/res/values-ro-rRO)
+- [Brazilian Portuguese](i18n/src/main/res/values-pt-rBR)
+- [German](i18n/src/main/res/values-de-rDE)
 
 ### Android Development
 
@@ -50,14 +48,3 @@ M3U is an app that attempts to use the latest libraries and tools. As a summary:
 - Uses Lint Checks for code scanning.
 - Uses KSP & KotlinPoet for Code Generating.
 - FFmepg-kit & ExoPlayer.
-
-### Star History
-
-<a href="https://star-history.com/#oxyroid/M3UAndroid&Date">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=oxyroid/M3UAndroid&type=Date&theme=dark" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=oxyroid/M3UAndroid&type=Date" />
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=oxyroid/M3UAndroid&type=Date" />
-  </picture>
-</a>
-
