@@ -39,6 +39,14 @@ interface PlaylistRepository {
         callback: (count: Int) -> Unit = {}
     )
 
+    // TODO: add callback
+    suspend fun onlyfansOrThrow(
+        title: String,
+        cookie: String,
+        userAgent: String,
+        xbc: String
+    )
+
     suspend fun insertEpgAsPlaylist(title: String, epg: String)
 
     suspend fun refresh(url: String)

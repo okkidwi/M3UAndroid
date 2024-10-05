@@ -33,12 +33,6 @@ internal class XtreamParserImpl @Inject constructor(
             explicitNulls = false
             isLenient = true
         }
-    private val okHttpClient = okHttpClient
-        .newBuilder()
-        .callTimeout(Duration.ofMillis(Int.MAX_VALUE.toLong()))
-        .connectTimeout(Duration.ofMillis(Int.MAX_VALUE.toLong()))
-        .readTimeout(Duration.ofMillis(Int.MAX_VALUE.toLong()))
-        .build()
 
     private val utils by lazy {
         ParserUtils(

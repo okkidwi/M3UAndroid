@@ -26,6 +26,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
@@ -61,14 +63,22 @@ private enum class SubscriptionsFragmentPage {
 
 @Composable
 internal fun SubscriptionsFragment(
+    // m3u
     titleState: MutableState<String>,
     urlState: MutableState<String>,
     uriState: MutableState<Uri>,
     selectedState: MutableState<DataSource>,
+    // xtream
     basicUrlState: MutableState<String>,
     usernameState: MutableState<String>,
     passwordState: MutableState<String>,
+    // onlyfans
+    cookieState: MutableState<String>,
+    userAgentState: MutableState<String>,
+    xbcState: MutableState<String>,
+    // epg
     epgState: MutableState<String>,
+    // etc.
     localStorageState: MutableState<Boolean>,
     forTvState: MutableState<Boolean>,
     backingUpOrRestoring: BackingUpAndRestoringState,
@@ -105,6 +115,9 @@ internal fun SubscriptionsFragment(
                         basicUrlState = basicUrlState,
                         usernameState = usernameState,
                         passwordState = passwordState,
+                        cookieState = cookieState,
+                        userAgentState = userAgentState,
+                        xbcState = xbcState,
                         localStorageState = localStorageState,
                         forTvState = forTvState,
                         backingUpOrRestoring = backingUpOrRestoring,
@@ -157,6 +170,9 @@ private fun MainContentImpl(
     basicUrlState: MutableState<String>,
     usernameState: MutableState<String>,
     passwordState: MutableState<String>,
+    cookieState: MutableState<String>,
+    userAgentState: MutableState<String>,
+    xbcState: MutableState<String>,
     localStorageState: MutableState<Boolean>,
     forTvState: MutableState<Boolean>,
     backingUpOrRestoring: BackingUpAndRestoringState,
@@ -188,6 +204,7 @@ private fun MainContentImpl(
                     DataSource.EPG,
                     DataSource.Xtream,
                     DataSource.Emby,
+                    DataSource.Onlyfans,
                     DataSource.Dropbox
                 )
             )
@@ -222,6 +239,14 @@ private fun MainContentImpl(
 
                 DataSource.Emby -> {}
                 DataSource.Dropbox -> {}
+                DataSource.Onlyfans -> {
+                    OnlyfansInputContent(
+                        titleState = titleState,
+                        cookieState = cookieState,
+                        userAgentState = userAgentState,
+                        xbcState = xbcState
+                    )
+                }
             }
         }
 
@@ -481,6 +506,56 @@ private fun XtreamInputContent(
             modifier = Modifier.fillMaxWidth()
         )
         Warning(stringResource(string.feat_setting_warning_xtream_takes_much_more_time))
+    }
+}
+
+
+@Composable
+private fun OnlyfansInputContent(
+    titleState: MutableState<String>,
+    cookieState: MutableState<String>,
+    userAgentState: MutableState<String>,
+    xbcState: MutableState<String>,
+    modifier: Modifier = Modifier
+) {
+    // 'User-Agent': self.user_agent,
+    // 'Referer': 'https://onlyfans.com/',
+    // 'accept': 'application/json, text/plain, */*',
+    // 'Cookie' : self.cookie,
+    // 'app-token': self.app_token,
+    // 'x-bc': self.x_bc,
+    // 'accept-encoding': 'gzip, deflate, br'
+
+    val spacing = LocalSpacing.current
+
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(spacing.small)
+    ) {
+        PlaceholderField(
+            text = titleState.value,
+            placeholder = stringResource(string.feat_setting_placeholder_title).uppercase(),
+            onValueChange = { titleState.value = Uri.encode(it) },
+            modifier = Modifier.fillMaxWidth()
+        )
+        PlaceholderField(
+            text = cookieState.value,
+            placeholder = stringResource(string.feat_setting_placeholder_cookie).uppercase(),
+            onValueChange = { cookieState.value = Uri.encode(it) },
+            modifier = Modifier.fillMaxWidth()
+        )
+        PlaceholderField(
+            text = userAgentState.value,
+            placeholder = stringResource(string.feat_setting_placeholder_useragent).uppercase(),
+            onValueChange = { userAgentState.value = Uri.encode(it) },
+            modifier = Modifier.fillMaxWidth()
+        )
+        PlaceholderField(
+            text = xbcState.value,
+            placeholder = stringResource(string.feat_setting_placeholder_xbc).uppercase(),
+            onValueChange = { xbcState.value = Uri.encode(it) },
+            modifier = Modifier.fillMaxWidth()
+        )
     }
 }
 

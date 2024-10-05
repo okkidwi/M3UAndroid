@@ -19,6 +19,7 @@ object Profiles {
 
     val PARSER_M3U = Profile("parser-m3u")
     val PARSER_XTREAM = Profile("parser-xtream")
+    val PARSER_ONLYFANS = Profile("parser-onlyfans")
     val PARSER_EPG = Profile("parser-epg")
 
     val SERVICE_PLAYER = Profile("service-player")

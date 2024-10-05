@@ -137,6 +137,8 @@ sealed class DataSource(
 
     object Emby : DataSource(R.string.feat_setting_data_source_emby, "emby")
 
+    object Onlyfans: DataSource(R.string.feat_setting_data_source_onlyfans, "onlyfans", true)
+
     object Dropbox : DataSource(R.string.feat_setting_data_source_dropbox, "dropbox")
 
     override fun toString(): String = value
@@ -147,6 +149,7 @@ sealed class DataSource(
             "epg" -> EPG
             "xtream" -> Xtream
             "emby" -> Emby
+            "onlyfans" -> Onlyfans
             "dropbox" -> Dropbox
             else -> throw UnsupportedOperationException()
         }

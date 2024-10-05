@@ -3,6 +3,7 @@ package com.m3u.data.repository.playlist
 import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
+import androidx.compose.ui.unit.IntSize
 import androidx.core.net.toUri
 import androidx.work.WorkManager
 import com.m3u.core.architecture.dispatcher.Dispatcher
@@ -31,6 +32,8 @@ import com.m3u.data.database.model.fromLocal
 import com.m3u.data.parser.m3u.M3UData
 import com.m3u.data.parser.m3u.M3UParser
 import com.m3u.data.parser.m3u.toChannel
+import com.m3u.data.parser.onlyfans.OnlyfansInput
+import com.m3u.data.parser.onlyfans.OnlyfansParser
 import com.m3u.data.parser.xtream.XtreamChannelInfo
 import com.m3u.data.parser.xtream.XtreamInput
 import com.m3u.data.parser.xtream.XtreamLive
@@ -60,6 +63,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import kotlinx.datetime.Clock
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
@@ -81,6 +85,7 @@ internal class PlaylistRepositoryImpl @Inject constructor(
     @OkhttpClient(true) private val okHttpClient: OkHttpClient,
     private val m3uParser: M3UParser,
     private val xtreamParser: XtreamParser,
+    private val onlyfansParser: OnlyfansParser,
     private val preferences: Preferences,
     private val workManager: WorkManager,
     @ApplicationContext private val context: Context,
@@ -346,6 +351,46 @@ internal class PlaylistRepositoryImpl @Inject constructor(
             .onEach(cache::push)
             .onCompletion { cache.flush() }
             .collect()
+    }
+
+    override suspend fun onlyfansOrThrow(
+        title: String,
+        cookie: String,
+        userAgent: String,
+        xbc: String
+    ): Unit = withContext(ioDispatcher) {
+        val input = OnlyfansInput(cookie, userAgent, xbc)
+        val playlistUrl = OnlyfansInput.encodeToPlaylistUrl(input)
+        val playlist = playlistDao.get(playlistUrl) ?: Playlist(
+            title = title,
+            url = playlistUrl,
+            source = DataSource.Onlyfans,
+            userAgent = userAgent
+        )
+        playlistDao.insertOrReplace(playlist)
+
+        val posts = onlyfansParser.parse(input)
+        posts.forEach { post ->
+            val userId = post.author.id
+            val text = post.text
+            val medias = post.media
+                .filter { it.canView }
+                .associate { media ->
+                    with(media.files.full) {
+                        IntSize(width, height) to url
+                    }
+                }
+            medias.forEach { (size, url) ->
+                val (width, height) = size
+                Channel(
+                    url = url,
+                    category = "$userId",
+                    title = "[${width}x${height}] $text",
+                    cover = "", // TODO
+                    playlistUrl = playlist.url
+                )
+            }
+        }
     }
 
     override suspend fun insertEpgAsPlaylist(title: String, epg: String): Unit =

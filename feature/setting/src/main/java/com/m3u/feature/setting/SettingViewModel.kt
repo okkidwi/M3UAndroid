@@ -25,13 +25,13 @@ import com.m3u.core.util.basic.startWithHttpScheme
 import com.m3u.data.api.TvApiDelegate
 import com.m3u.data.database.dao.ColorSchemeDao
 import com.m3u.data.database.example.ColorSchemeExample
+import com.m3u.data.database.model.Channel
 import com.m3u.data.database.model.ColorScheme
 import com.m3u.data.database.model.DataSource
 import com.m3u.data.database.model.Playlist
-import com.m3u.data.database.model.Channel
 import com.m3u.data.parser.xtream.XtreamInput
-import com.m3u.data.repository.playlist.PlaylistRepository
 import com.m3u.data.repository.channel.ChannelRepository
+import com.m3u.data.repository.playlist.PlaylistRepository
 import com.m3u.data.service.Messager
 import com.m3u.data.service.PlayerManager
 import com.m3u.data.worker.BackupWorker
@@ -231,6 +231,36 @@ class SettingViewModel @Inject constructor(
                     messager.emit(SettingMessage.Enqueued)
                 }
 
+                DataSource.Onlyfans -> {
+                    // TODO: make toast
+                    val cookie = cookieState.value
+                    val userAgent = userAgentState.value
+                    val xbc = xbcState.value
+                    if (title.isEmpty()) {
+
+                        return
+                    }
+                    if (cookie.isEmpty()) {
+
+                        return
+                    }
+                    if (userAgent.isEmpty()) {
+
+                        return
+                    }
+                    if (xbc.isEmpty()) {
+
+                        return
+                    }
+                    SubscriptionWorker.onlyfans(
+                        workManager = workManager,
+                        title = title,
+                        cookie = cookie,
+                        userAgent = userAgent,
+                        xbc = xbc
+                    )
+                }
+
                 else -> return
             }
         }
@@ -365,6 +395,9 @@ class SettingViewModel @Inject constructor(
     internal val basicUrlState = mutableStateOf("")
     internal val usernameState = mutableStateOf("")
     internal val passwordState = mutableStateOf("")
+    internal val cookieState = mutableStateOf("")
+    internal val userAgentState = mutableStateOf("")
+    internal val xbcState = mutableStateOf("")
     internal val epgState = mutableStateOf("")
     internal val selectedState: MutableState<DataSource> = mutableStateOf(DataSource.M3U)
 }

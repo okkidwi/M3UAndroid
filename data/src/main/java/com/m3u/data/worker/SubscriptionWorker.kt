@@ -29,6 +29,7 @@ import com.m3u.data.repository.programme.ProgrammeRepository
 import com.m3u.i18n.R.string
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import io.ktor.util.Hash
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope
@@ -59,6 +60,9 @@ class SubscriptionWorker @AssistedInject constructor(
     private val url = inputData.getString(INPUT_STRING_URL)
     private val epgPlaylistUrl = inputData.getString(INPUT_STRING_EPG_PLAYLIST_URL)
     private val epgIgnoreCache = inputData.getBoolean(INPUT_BOOLEAN_EPG_IGNORE_CACHE, false)
+    private val cookie = inputData.getString(INPUT_COOKIE)
+    private val userAgent = inputData.getString(INPUT_USER_AGENT)
+    private val xbc = inputData.getString(INPUT_X_BC)
     private val notificationId: Int by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
         ATOMIC_NOTIFICATION_ID.incrementAndGet()
     }
@@ -93,32 +97,33 @@ class SubscriptionWorker @AssistedInject constructor(
                         .buildThenNotify()
                     Result.failure()
                 } else {
-                    var total = 0
-                    playlistRepository.m3uOrThrow(title, url) { count ->
-                        total = count
-                        val notification = createN10nBuilder()
-                            .setContentText(findChannelProgressContentText(count))
-                            .setActions(cancelAction)
-                            .setOngoing(true)
-                            .build()
-                        notificationManager.notify(notificationId, notification)
+                    safe {
+                        var total = 0
+                        playlistRepository.m3uOrThrow(title, url) { count ->
+                            total = count
+                            val notification = createN10nBuilder()
+                                .setContentText(findChannelProgressContentText(count))
+                                .setActions(cancelAction)
+                                .setOngoing(true)
+                                .build()
+                            notificationManager.notify(notificationId, notification)
+                        }
+                        createN10nBuilder()
+                            .setContentText(findCompleteContentText(total))
+                            .buildThenNotify()
                     }
-
-                    createN10nBuilder()
-                        .setContentText(findCompleteContentText(total))
-                        .buildThenNotify()
-                    Result.success()
                 }
             }
 
             DataSource.EPG -> {
                 val playlistUrl = epgPlaylistUrl ?: return@coroutineScope Result.failure()
                 val ignoreCache = epgIgnoreCache
-                try {
-                    programmeRepository.checkOrRefreshProgrammesOrThrow(
-                        playlistUrl,
-                        ignoreCache = ignoreCache
-                    )
+                safe {
+                    programmeRepository
+                        .checkOrRefreshProgrammesOrThrow(
+                            playlistUrl,
+                            ignoreCache = ignoreCache
+                        )
                         .onEach { count ->
                             val notification = createN10nBuilder()
                                 .setContentText(findProgrammeProgressContentText(count))
@@ -127,15 +132,6 @@ class SubscriptionWorker @AssistedInject constructor(
                             notificationManager.notify(notificationId, notification)
                         }
                         .launchIn(this)
-                    Result.success()
-                } catch (e: Exception) {
-                    createN10nBuilder()
-                        .setContentText(e.localizedMessage.orEmpty())
-                        .setActions(retryAction)
-                        .setColor(Color.RED)
-                        .buildThenNotify()
-                    e.printStackTrace()
-                    Result.failure()
                 }
             }
 
@@ -152,7 +148,7 @@ class SubscriptionWorker @AssistedInject constructor(
                         .buildThenNotify()
                     Result.failure()
                 } else {
-                    try {
+                    safe {
                         val type = url?.let { XtreamInput.decodeFromPlaylistUrlOrNull(it)?.type }
                         var total = 0
                         playlistRepository.xtreamOrThrow(
@@ -168,15 +164,22 @@ class SubscriptionWorker @AssistedInject constructor(
                         createN10nBuilder()
                             .setContentText(findCompleteContentText(total))
                             .buildThenNotify()
-                        Result.success()
-                    } catch (e: Exception) {
-                        createN10nBuilder()
-                            .setContentText(e.localizedMessage.orEmpty())
-                            .setActions(retryAction)
-                            .setColor(Color.RED)
-                            .buildThenNotify()
-                        Result.failure()
                     }
+                }
+            }
+
+            DataSource.Onlyfans -> {
+                title ?: return@coroutineScope Result.failure()
+                cookie ?: return@coroutineScope Result.failure()
+                userAgent ?: return@coroutineScope Result.failure()
+                xbc ?: return@coroutineScope Result.failure()
+                safe {
+                    playlistRepository.onlyfansOrThrow(
+                        title = title,
+                        cookie = cookie,
+                        userAgent = userAgent,
+                        xbc = xbc
+                    )
                 }
             }
 
@@ -257,6 +260,20 @@ class SubscriptionWorker @AssistedInject constructor(
             .build()
     }
 
+    private inline fun safe(block: () -> Unit): Result {
+        return try {
+            block()
+            Result.success()
+        } catch (e: Exception) {
+            createN10nBuilder()
+                .setContentText(e.localizedMessage.orEmpty())
+                .setActions(retryAction)
+                .setColor(Color.RED)
+                .buildThenNotify()
+            Result.failure()
+        }
+    }
+
     companion object {
         private const val CHANNEL_ID = "subscribe_channel"
         private const val NOTIFICATION_NAME = "subscribe task"
@@ -267,6 +284,9 @@ class SubscriptionWorker @AssistedInject constructor(
         private const val INPUT_STRING_BASIC_URL = "basic_url"
         private const val INPUT_STRING_USERNAME = "username"
         private const val INPUT_STRING_PASSWORD = "password"
+        private const val INPUT_COOKIE = "cookie"
+        private const val INPUT_USER_AGENT = "user-agent"
+        private const val INPUT_X_BC = "x-bc"
         private const val INPUT_STRING_DATA_SOURCE_VALUE = "data-source"
         const val TAG = "subscription"
 
@@ -387,6 +407,38 @@ class SubscriptionWorker @AssistedInject constructor(
                         )
                     }
                 }
+                .addTag(TAG)
+                .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
+                .setConstraints(
+                    Constraints.Builder()
+                        .setRequiredNetworkType(NetworkType.CONNECTED)
+                        .build()
+                )
+                .build()
+            workManager.enqueue(request)
+        }
+
+
+        fun onlyfans(
+            workManager: WorkManager,
+            title: String,
+            cookie: String,
+            userAgent: String,
+            xbc: String
+        ) {
+            val tag = "onlyfans_" + Hash.combine(cookie, userAgent, xbc)
+            workManager.cancelAllWorkByTag(tag)
+            val request = OneTimeWorkRequestBuilder<SubscriptionWorker>()
+                .setInputData(
+                    workDataOf(
+                        INPUT_STRING_TITLE to title,
+                        INPUT_COOKIE to cookie,
+                        INPUT_USER_AGENT to userAgent,
+                        INPUT_X_BC to xbc,
+                        INPUT_STRING_DATA_SOURCE_VALUE to DataSource.Onlyfans.value
+                    )
+                )
+                .addTag(tag)
                 .addTag(TAG)
                 .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
                 .setConstraints(
