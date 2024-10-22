@@ -2,7 +2,7 @@ name: Android CI
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master", "ci-1.14.0-rc04-benchmark" ]
     paths-ignore:
       - '**.md'
       - '**.txt'
@@ -11,7 +11,7 @@ on:
       - 'fastlane/**'
       - '!.github/workflows/**'
   pull_request:
-    branches: [ "master" ]
+    branches: [ "master", "ci-1.14.0-rc04-benchmark" ]
   workflow_dispatch:
 
 jobs:
@@ -30,6 +30,13 @@ jobs:
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+
+      - name: Generate baseline profile
+        run: ./gradlew :benchmark:Pixel5Api31StableChannelRichCodecBenchmarkAndroidTest --rerun-tasks -P android.testInstrumentationRunnerArguments.class=com.m3u.benchmark.BaselineProfileGenerator
+
+      - name: Copy and Rename baseline profile
+        run: cp benchmark/build/outputs/managed_device_android_test_additional_output/benchmark/flavours/stableChannelRichCodec/Pixel5Api31/BaselineProfileGenerator_generateBaselineProfile-baseline-prof.txt androidApp/src/main/baseline-prof.txt
+
       - name: Build with Gradle
         run: ./gradlew :androidApp:assembleSnapshotChannelRichCodecRelease
 
