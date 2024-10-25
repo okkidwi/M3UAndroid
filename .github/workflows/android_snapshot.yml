@@ -31,6 +31,12 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: Setup GMD
+        run: ./gradlew :benchmarks:pixel6Api33Setup
+          --info
+          -Pandroid.experimental.testOptions.managedDevices.emulator.showKernelLogging=true
+          -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"
+
       - name: Generate baseline profile
         run: ./gradlew :androidApp:generateSnapshotChannelRichCodecReleaseBaselineProfile
           -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"
