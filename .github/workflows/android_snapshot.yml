@@ -33,6 +33,9 @@ jobs:
 
       - name: Generate baseline profile
         run: ./gradlew :androidApp:generateSnapshotChannelRichCodecReleaseBaselineProfile
+          -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"
+          -Pandroid.experimental.androidTest.numManagedDeviceShards=1
+          -Pandroid.experimental.testOptions.managedDevices.maxConcurrentDevices=1
 
       - name: Build with Gradle
         run: ./gradlew :androidApp:assembleSnapshotChannelRichCodecRelease
