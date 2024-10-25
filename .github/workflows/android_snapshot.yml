@@ -32,7 +32,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Setup GMD
-        run: ./gradlew :benchmarks:pixel6Api33Setup
+        run: ./gradlew :baselineprofile:pixel6Api33Setup
           --info
           -Pandroid.experimental.testOptions.managedDevices.emulator.showKernelLogging=true
           -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"
