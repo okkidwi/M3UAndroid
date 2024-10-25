@@ -21,7 +21,6 @@ android {
         versionName = "1.14.0-rc03"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArguments["androidx.benchmark.profiling.mode"] = "MethodTracing"
     }
     flavorDimensions += setOf("channel", "codec")
     productFlavors {
@@ -131,6 +130,9 @@ dependencies {
     implementation(project(":feature:playlist-configuration"))
     implementation(project(":feature:crash"))
 
+    implementation(libs.androidx.profileinstaller)
+    baselineProfile(project(":baselineprofile"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.activity.compose)
@@ -143,6 +145,7 @@ dependencies {
     implementation(libs.androidx.core.splashscreen)
 
     implementation(libs.google.dagger.hilt)
+    baselineProfile(project(":baselineprofile"))
     ksp(libs.google.dagger.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 
