@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.androidx.baselineprofile)
     id("kotlin-parcelize")
 }
+
 android {
     namespace = "com.m3u.androidApp"
     compileSdk = 34
