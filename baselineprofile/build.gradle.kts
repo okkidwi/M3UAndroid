@@ -37,11 +37,14 @@ android {
     // This code creates the gradle managed device used to generate baseline profiles.
     // To use GMD please invoke generation through the command line:
     // ./gradlew :androidApp:generateBaselineProfile
+    testOptions.animationsDisabled = true
     testOptions.managedDevices.devices {
         create<ManagedVirtualDevice>("pixel6Api34") {
-            device = "Pixel 6"
+            // A lower resolution device is used here for better emulator performance
+            device = "Nexus One"
             apiLevel = 34
-            systemImageSource = "aosp"
+            // Also use the AOSP Automated Test Device image for better emulator performance
+            systemImageSource = "aosp-atd"
         }
     }
 }
