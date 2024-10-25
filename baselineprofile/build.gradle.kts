@@ -43,6 +43,7 @@ android {
             // A lower resolution device is used here for better emulator performance
             device = "Nexus One"
             apiLevel = 34
+            require64Bit = true
             // Also use the AOSP Automated Test Device image for better emulator performance
             systemImageSource = "aosp-atd"
         }
