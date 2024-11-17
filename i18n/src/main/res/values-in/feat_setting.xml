@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feat_setting_app_version">versi aplikasi</string>
+    <string name="feat_setting_label_subscribe">berlangganan</string>
+    <string name="feat_setting_success_subscribe">langganan berhasil</string>
+    <string name="feat_setting_failed_malformed_url">URL tidak valid (%s)</string>
+    <string name="feat_setting_error_empty_title">nama playlist kosong</string>
+    <string name="feat_setting_placeholder_title">nama playlist</string>
+    <string name="feat_setting_placeholder_url">tautan playlist</string>
+    <string name="feat_setting_label_subscribing">sedang berlangganan</string>
+    <string name="feat_setting_sync_mode_all">semua</string>
+    <string name="feat_setting_sync_mode_keep">simpan</string>
+    <string name="feat_setting_sync_mode">strategi sinkronisasi</string>
+    <string name="feat_setting_playlist_management">manajemen playlist</string>
+    <string name="feat_setting_connect_timeout">waktu habis koneksi</string>
+    <string name="feat_setting_god_mode">mode dewa</string>
+    <string name="feat_setting_god_mode_description">sesuaikan tata letak dengan tombol volume fisik</string>
+    <string name="feat_setting_experimental_mode">mode eksperimental</string>
+    <string name="feat_setting_experimental_mode_description">fitur tidak stabil dapat menyebabkan kesalahan fatal</string>
+    <string name="feat_setting_label_epg_playlists">daftar EPG</string>
+    <string name="feat_setting_label_hidden_channels">channel tersembunyi</string>
+    <string name="feat_setting_label_hidden_playlist_groups">kategori playlist tersembunyi</string>
+    <string name="feat_setting_label_add_playlist">tambahkan playlist</string>
+    <string name="feat_setting_label_parse_from_clipboard">ambil dari papan klip</string>
+    <string name="feat_setting_label_select_from_local_storage">pilih berkas</string>
+    <string name="feat_setting_label_parse_from_disk">ambil dari berkas</string>
+    <string name="feat_setting_clip_mode">mode klip video</string>
+    <string name="feat_setting_clip_mode_adaptive">adaptif</string>
+    <string name="feat_setting_clip_mode_clip">klip</string>
+    <string name="feat_setting_clip_mode_stretched">merentang</string>
+    <string name="feat_setting_auto_refresh_channels">perbarui channel otomatis</string>
+    <string name="feat_setting_auto_refresh_channels_description">diperbarui otomatis saat memasuki channel</string>
+
+    <string name="feat_setting_full_info_player">informasi lengkap pemutar</string>
+    <string name="feat_setting_full_info_player_description">tampilkan lebih banyak informasi di pemutar</string>
+    <string name="feat_setting_slider">penggeser</string>
+    <string name="feat_setting_no_picture_mode">mode tanpa gambar</string>
+    <string name="feat_setting_no_picture_mode_description">dapat meningkatkan kinerja</string>
+    <string name="feat_setting_system_setting">pengaturan sistem</string>
+    <string name="feat_setting_script_management_import_js">impor Javascript</string>
+    <string name="feat_setting_enqueue_subscribe">tugas berlangganan telah ditambahkan ke antrean</string>
+    <string name="feat_setting_dropbox">dropbox</string>
+    <string name="feat_setting_project_about">tentang projek</string>
+    <string name="feat_setting_local_storage">penyimpanan lokal</string>
+    <string name="feat_setting_error_unselected_file">belum ada berkas yang dipilih</string>
+    <string name="feat_setting_error_blank_url">URL kosong</string>
+    <string name="feat_setting_use_dynamic_colors">warna dinamis</string>
+    <string name="feat_setting_use_dynamic_colors_unavailable">tersedia di Android 12 dan lebih tinggi</string>
+    <string name="feat_setting_colorful_background">latar belakang berwarna</string>
+    <string name="feat_setting_restore_schemes">pulihkan skema</string>
+    <string name="feat_setting_not_implementation">fitur ini tidak tersedia di versi saat ini</string>
+    <string name="feat_setting_zapping_mode">mode zapping</string>
+    <string name="feat_setting_zapping_mode_description">pratinjau cepat sebelum memutar channel</string>
+    <string name="feat_setting_gesture_brightness">gestur kecerahan</string>
+    <string name="feat_setting_gesture_volume">gestur volume</string>
+    <string name="feat_setting_screencast">cast layar</string>
+    <string name="feat_setting_screen_rotating">rotasi layar</string>
+    <string name="feat_setting_screen_rotating_description">tersedia saat rotasi sistem tidak terkunci</string>
+    <string name="feat_setting_optional_features">fitur opsional</string>
+    <string name="feat_setting_unseen_limit">rekomendasikan channel favorit yang lama tidak dilihat</string>
+    <string name="feat_setting_reconnect_mode">sambung ulang otomatis</string>
+    <string name="feat_setting_reconnect_mode_no">tidak pernah</string>
+    <string name="feat_setting_reconnect_mode_retry">hanya saat gagal</string>
+    <string name="feat_setting_reconnect_mode_reconnect">selalu</string>
+
+    <string name="feat_setting_appearance">tampilan</string>
+    <string name="feat_setting_appearance_hint_edit_color">tekan lama untuk mengedit warna</string>
+
+    <string name="feat_setting_tunneling">mode tunneling</string>
+    <string name="feat_setting_tunneling_description">meningkatkan pemutaran konten 4K/HDR</string>
+    <string name="feat_setting_label_backup">cadangkan</string>
+    <string name="feat_setting_label_restore">pulihkan</string>
+
+    <string name="feat_setting_canvas_dark">gelap</string>
+    <string name="feat_setting_canvas_light">terang</string>
+    <string name="feat_setting_canvas_apply">terapkan</string>
+    <string name="feat_setting_canvas_reset">atur ulang</string>
+
+    <string name="feat_setting_epg_clock_mode">mode jam 12 jam untuk program</string>
+
+    <string name="feat_setting_remote_control">kontrol jarak jauh</string>
+    <string name="feat_setting_remote_control_description">aktifkan kemampuan untuk mengontrol TV Anda dari jarak jauh</string>
+
+    <string name="feat_setting_remote_control_tv_side">kontrol jarak jauh</string>
+    <string name="feat_setting_remote_control_tv_side_description">izinkan smartphone untuk mengontrol TV Anda</string>
+
+    <string name="feat_setting_subscribe_for_tv">untuk TV</string>
+
+    <string name="feat_setting_backing_up">mencadangkan semua playlist dan channel</string>
+    <string name="feat_setting_restoring">memulihkan semua playlist dan channel</string>
+
+    <string name="feat_setting_follow_system_theme">ikuti tema sistem</string>
+
+    <string name="feat_setting_data_source_m3u" translatable="false">M3U</string>
+    <string name="feat_setting_data_source_epg" translatable="false">EPG</string>
+    <string name="feat_setting_data_source_xtream" translatable="false">Xtream</string>
+    <string name="feat_setting_data_source_emby" translatable="false">Emby</string>
+    <string name="feat_setting_data_source_dropbox" translatable="false">Dropbox</string>
+
+    <string name="feat_setting_placeholder_basic_url">alamat</string>
+    <string name="feat_setting_placeholder_username">nama pengguna</string>
+    <string name="feat_setting_placeholder_password">kata sandi</string>
+
+    <string name="feat_setting_warning_xtream_takes_much_more_time">ini mungkin memakan waktu lebih lama</string>
+
+    <string name="feat_setting_back_home">kembali ke beranda</string>
+
+    <string name="feat_setting_always_replay">selalu tampilkan tombol pengulangan</string>
+
+    <string name="feat_setting_player_panel">panel pemutar</string>
+    <string name="feat_setting_player_panel_description">geser ke atas pemain untuk memperluasnya dalam mode potret</string>
+
+    <string name="feat_setting_cache">cache saat memutar</string>
+    <string name="feat_setting_cache_description">opsi ini dapat mencegah pemutaran normal</string>
+    <string name="feat_setting_clear_cache">hapus cache</string>
+
+    <string name="feat_setting_paging">paginasi channel</string>
+    <string name="feat_setting_paging_description">
+        berguna untuk jumlah channel yang besar,
+        tetapi pengelompokan akan dinonaktifkan pada saat yang sama
+    </string>
+    <string name="feat_setting_source_code">kode sumber</string>
+
+    <string name="feat_setting_compact_dimension">dimensi ringkas</string>
+    <!-- EPG -->
+    <string name="feat_setting_placeholder_epg_title">nama epg</string>
+    <string name="feat_setting_error_empty_epg_title">nama epg kosong</string>
+    <string name="feat_setting_error_empty_epg">tautan epg kosong</string>
+    <string name="feat_setting_placeholder_epg">tautan epg</string>
+    <string name="feat_setting_epg_added">Anda kemudian dapat mengaitkan playlist dengan EPG</string>
+
+    <string name="feat_setting_randomly_in_favourite">putar secara acak hanya dari favorit</string>
+</resources>
