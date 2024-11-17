@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feat_foryou_hidden_channels_playlist">channel tersembunyi</string>
+    <string name="feat_foryou_unsubscribe_playlist">berhenti berlangganan</string>
+    <string name="feat_foryou_copy_playlist_url">salin URL</string>
+    <string name="feat_foryou_rename_playlist">ubah nama</string>
+    <string name="feat_foryou_imported_playlist_title">diimpor</string>
+    <string name="feat_foryou_prompt_add_playlist">tambahkan playlist</string>
+    <string name="feat_foryou_recommend_unseen_label">favorit yang ingin Anda lihat lagi</string>
+    <string name="feat_foryou_recommend_unseen_more_than_days">lebih dari %d hari</string>
+    <string name="feat_foryou_recommend_unseen_days">%d hari</string>
+    <string name="feat_foryou_recommend_unseen_hours">%d jam</string>
+    <string name="feat_foryou_new_release">rilisan baru</string>
+    <string name="feat_foryou_connect_title">masukkan kode dari TV</string>
+    <string name="feat_foryou_connect_subtitle">Pastikan terhubung ke Wi-Fi yang sama</string>
+</resources>
