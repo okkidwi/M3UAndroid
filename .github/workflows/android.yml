@@ -50,22 +50,19 @@ jobs:
         run: ./gradlew :androidApp:assembleSnapshotChannelRichCodecRelease
 
       # Create Release
-      - name: Create GitHub Release
-        id: create_release
-        uses: actions/create-release@v1
+      - name: Create Release
+        uses: actions/upload-artifact@v3
         with:
-          tag_name: v${{ github.run_number }}
-          release_name: "Release ${{ github.run_number }}"
-          draft: false
-          prerelease: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          path: "androidApp/build/outputs/apk/snapshotChannelRichCodec/release/*.apk"
 
-      # Upload APK to Release
-      - name: Upload APK to Release
-        uses: actions/upload-release-asset@v1
+      # Upload to Telegram
+      - name: Upload to Telegram
+        if: github.event_name != 'pull_request'
+        uses: xireiki/channel-post@v1.0.7
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: androidApp/build/outputs/apk/snapshotChannelRichCodec/release/*.apk
-          asset_name: app-release.apk
-          asset_content_type: application/vnd.android.package-archive
+          bot_token: ${{ secrets.BOT_TOKEN }}
+          chat_id: ${{ secrets.CHAT_ID }}
+#          large_file: true
+          method: sendFile
+          path: "androidApp/build/outputs/apk/snapshotChannelRichCodec/release/*.apk"
+#          parse_mode: Markdown
