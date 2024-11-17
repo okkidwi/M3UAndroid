@@ -50,6 +50,12 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew :androidApp:assembleSnapshotChannelRichCodecRelease
 
+      # Configure Git
+      - name: Configure Git
+        run: |
+          git config --global user.email "ci@example.com"
+          git config --global user.name "CI Bot"
+
       # Create Git Tag
       - name: Create Tag
         id: create_tag
