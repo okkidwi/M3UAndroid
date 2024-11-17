@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="data_error_file_not_found">file tidak ditemukan</string>
+    <string name="data_error_file_not_found">berkas tidak ditemukan</string>
     <string name="data_error_empty_title">nama playlist kosong</string>
     <string name="data_channel_name_stream_download_service">Layanan Unduh Streaming</string>
     <string name="data_channel_description_stream_download_service">Deskripsi Unduh Streaming</string>
