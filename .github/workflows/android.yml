@@ -16,7 +16,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -50,31 +49,23 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew :androidApp:assembleSnapshotChannelRichCodecRelease
 
-      # Configure Git
-      - name: Configure Git
-        run: |
-          git config --global user.email "ci@example.com"
-          git config --global user.name "CI Bot"
-
-      # Create Git Tag
-      - name: Create Tag
-        id: create_tag
-        run: |
-          VERSION=$(date +"%Y.%m.%d-%H.%M.%S")
-          echo "Tag version: $VERSION"
-          echo "version=$VERSION" >> $GITHUB_ENV
-          git tag -a "$VERSION" -m "Release $VERSION"
-          git push origin "$VERSION"
-
-      # Upload APK to Release
-      - name: Create Release and Upload APK
-        uses: softprops/action-gh-release@v1
+      # Create Release
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
         with:
-          tag_name: ${{ env.version }}
-          name: "Release ${{ env.version }}"
-          body: "Automatically generated release from CI/CD pipeline"
+          tag_name: v${{ github.run_number }}
+          release_name: "Release ${{ github.run_number }}"
           draft: false
           prerelease: true
-          files: "androidApp/build/outputs/apk/snapshotChannelRichCodec/release/*.apk"
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      # Upload APK to Release
+      - name: Upload APK to Release
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: androidApp/build/outputs/apk/snapshotChannelRichCodec/release/*.apk
+          asset_name: app-release.apk
+          asset_content_type: application/vnd.android.package-archive
