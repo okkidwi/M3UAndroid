@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feat_playlist_configuration_title">judul</string>
+    <string name="feat_playlist_configuration_user_agent">agen pengguna</string>
+    <string name="feat_playlist_configuration_enabled_epgs">EPG yang diaktifkan</string>
+    <string name="feat_playlist_configuration_sync_programmes">sinkronkan program</string>
+    <string name="feat_playlist_configuration_cancel_sync_programmes">batalkan sinkronisasi program</string>
+    <string name="feat_playlist_configuration_programmes_expired_time">Kedaluwarsa: %s</string>
+    <string name="feat_playlist_configuration_programmes_expired">Program yang disimpan telah kedaluwarsa</string>
+    <string name="feat_playlist_configuration_auto_refresh_programmes">Pembaruan Otomatis Program</string>
+    <string name="feat_playlist_configuration_auto_refresh_programmes_description">Saat Aplikasi Dijalankan</string>
+</resources>
